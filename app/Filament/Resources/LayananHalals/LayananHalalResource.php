@@ -5,6 +5,7 @@ namespace App\Filament\Resources\LayananHalals;
 use App\Filament\Resources\LayananHalals\Pages\CreateLayananHalal;
 use App\Filament\Resources\LayananHalals\Pages\EditLayananHalal;
 use App\Filament\Resources\LayananHalals\Pages\ListLayananHalals;
+use App\Filament\Resources\LayananHalals\Pages\ViewLayananHalal;
 use App\Filament\Resources\LayananHalals\Schemas\LayananHalalForm;
 use App\Filament\Resources\LayananHalals\Tables\LayananHalalsTable;
 use App\Models\LayananHalal;
@@ -46,6 +47,7 @@ class LayananHalalResource extends Resource
         return [
             'index' => ListLayananHalals::route('/'),
             'create' => CreateLayananHalal::route('/create'),
+            'view' => ViewLayananHalal::route('/{record}'),
             'edit' => EditLayananHalal::route('/{record}/edit'),
         ];
     }

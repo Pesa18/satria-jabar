@@ -5,6 +5,7 @@ namespace App\Livewire;
 use App\Models\LayananHalal;
 use App\Models\TeamSatria;
 use App\Notifications\WhatsAppNotification;
+use App\Services\WilayahServices;
 use Coderflex\LaravelTurnstile\Rules\TurnstileCheck;
 use Filament\Forms\Components\MarkdownEditor;
 use Filament\Forms\Components\Select;
@@ -71,17 +72,17 @@ class FormHalal extends Component implements HasSchemas
                             ->maxLength(255),
                         Select::make('kabupaten_id')->label('Kabupaten/Kota')
                             ->options(
-                                fn() => collect(static::getKabupaten())->pluck('name', 'id')
+                                fn(WilayahServices $wilayah) => collect($wilayah->getKabupaten())->pluck('name', 'id')
                             )
                             ->required()->native()->searchable()->live()->placeholder('Pilih Kabupaten'),
                         Select::make('kecamatan_id')->label('Kecamatan')
-                            ->options(function (Get $get) {
+                            ->options(function (Get $get, WilayahServices $wilayah) {
 
                                 $kabupaten = $get('kabupaten_id');
                                 if (!$kabupaten) {
                                     return [];
                                 }
-                                return collect(static::getKecamatan($kabupaten))->pluck('name', 'id');
+                                return collect($wilayah->getKecamatan($kabupaten))->pluck('name', 'id');
                             })
                             ->required()->native()->searchable()->live()->placeholder('Pilih Kecamatan'),
                     ]),
@@ -109,27 +110,5 @@ class FormHalal extends Component implements HasSchemas
     public function render(): View
     {
         return view('livewire.form-halal');
-    }
-
-    protected static function getKabupaten($id = '32')
-    {
-        try {
-            $response = Http::get('https://emsifa.github.io/api-wilayah-indonesia/api/regencies/' . $id . '.json');
-            $response->throw();
-
-            return $response->json() ?? [];
-        } catch (\Throwable $th) {
-            return [];
-        }
-    }
-    protected static function getKecamatan($id)
-    {
-        try {
-            $response = Http::get('https://emsifa.github.io/api-wilayah-indonesia/api/districts/' . $id . '.json');
-            $response->throw();
-            return $response->json() ?? [];
-        } catch (\Throwable $th) {
-            return [];
-        }
     }
 }

@@ -33,4 +33,8 @@ class LayananHalal extends Model
     {
         return $this->hasOne(StatusLayanan::class, 'id', 'status_layanan_id');
     }
+    public function teamSatria()
+    {
+        return $this->hasOne(TeamSatria::class, 'id', 'team_satria_id');
+    }
 }

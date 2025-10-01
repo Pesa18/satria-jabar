@@ -32,6 +32,7 @@ return new class extends Migration
             $table->foreignId('status_layanan_id')->nullable()->constrained('status_layanan')->onDelete('cascade');
             $table->string('dokumnen_pengajuan')->nullable();
             $table->string('foto_pelayanan')->nullable();
+            $table->string('dokumen_output')->nullable();
             $table->timestamps();
         });
     }

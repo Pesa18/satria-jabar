@@ -29,11 +29,12 @@ return new class extends Migration
             $table->integer('kabupaten_id')->nullable();
             $table->integer('kecamatan_id')->nullable();
             $table->enum('klasifikasi_usaha', ['mikro', 'kecil', 'menengah', 'besar'])->nullable();
-            $table->foreignId('status_layanan_id')->constrained('status_layanan')->onDelete('cascade')->nullable()->default(1);
+            $table->foreignId('status_layanan_id')->nullable()->constrained('status_layanan')->onDelete('cascade');
             $table->enum('layanan_halal', ['selfdeclare', 'reguler'])->default('selfdeclare')->nullable();
             $table->enum('jenis_usaha', ['makanan', 'minuman', 'kosmetik', 'farmasi', 'jasa', 'barang gunaan', 'produk kimiawi', 'produk biologi', 'lainnya'])->nullable();
             $table->string('foto_pelayanan')->nullable();
             $table->string('dokumen_pengajuan')->nullable();
+            $table->string('dokumen_output')->nullable();
             $table->timestamps();
         });
     }

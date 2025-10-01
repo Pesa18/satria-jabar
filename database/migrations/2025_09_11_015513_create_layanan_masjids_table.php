@@ -29,9 +29,10 @@ return new class extends Migration
             $table->integer('kecamatan_id')->nullable();
             $table->enum('jenis_layanan', ['id_masjid', 'perubahan_data'])->nullable();
             $table->string('catatan')->nullable();
-            $table->foreignId('status_layanan_id')->default(1)->constrained('status_layanan')->onDelete('cascade')->nullable();
+            $table->foreignId('status_layanan_id')->nullable()->constrained('status_layanan')->onDelete('cascade');
             $table->string('dokumnen_pengajuan')->nullable();
             $table->string('foto_pelayanan')->nullable();
+            $table->string('dokumen_output')->nullable();
             $table->timestamps();
         });
     }

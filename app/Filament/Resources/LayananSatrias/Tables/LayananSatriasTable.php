@@ -2,6 +2,7 @@
 
 namespace App\Filament\Resources\LayananSatrias\Tables;
 
+use App\Services\WilayahServices;
 use Filament\Actions\BulkActionGroup;
 use Filament\Actions\DeleteBulkAction;
 use Filament\Actions\EditAction;
@@ -20,8 +21,8 @@ class LayananSatriasTable
                 TextColumn::make('alamat')->label('Alamat')->searchable()->sortable(),
                 TextColumn::make('no_hp')->label('No. HP')->searchable()->sortable(),
                 TextColumn::make('email')->label('Email')->searchable()->sortable(),
-                TextColumn::make('kabupaten_id')->label('Kabupaten/Kota')->searchable()->sortable()->formatStateUsing(fn($state) => $state ? static::getKabupatenName($state) : '-'),
-                TextColumn::make('kecamatan_id')->label('Kecamatan')->searchable()->sortable()->formatStateUsing(fn($state) => $state ? static::getKecamatan($state) : '-'),
+                TextColumn::make('kabupaten_id')->label('Kabupaten/Kota')->searchable()->sortable()->formatStateUsing(fn($state, WilayahServices $wilayah) => $state ? $wilayah->getKabupatenName($state) : '-'),
+                TextColumn::make('kecamatan_id')->label('Kecamatan')->searchable()->sortable()->formatStateUsing(fn($state, WilayahServices $wilayah) => $state ? $wilayah->getKecamatanName($state) : '-'),
 
             ])
             ->filters([
@@ -36,24 +37,5 @@ class LayananSatriasTable
                     DeleteBulkAction::make(),
                 ]),
             ]);
-    }
-
-    protected static function getKabupatenName($id)
-    {
-        try {
-            $kabupaten = Http::get("https://emsifa.github.io/api-wilayah-indonesia/api/regency/" . $id . ".json")->json();
-            return $kabupaten['name'] ?? '';
-        } catch (\Exception $e) {
-            return '';
-        }
-    }
-    protected static function getKecamatan($id)
-    {
-        try {
-            $kabupaten = Http::get("https://emsifa.github.io/api-wilayah-indonesia/api/district/" . $id . ".json")->json();
-            return $kabupaten['name'] ?? '';
-        } catch (\Exception $e) {
-            return '';
-        }
     }
 }

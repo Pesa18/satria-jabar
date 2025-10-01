@@ -2,6 +2,7 @@
 
 namespace App\Filament\Resources\LayananHalals\Schemas;
 
+use App\Services\WilayahServices;
 use Carbon\Carbon;
 use Filament\Forms\Components\DatePicker;
 use Filament\Forms\Components\FileUpload;
@@ -56,17 +57,17 @@ class LayananHalalForm
                                         'style' => 'z-index: 9999; position: relative;',
                                     ])
                                     ->options(
-                                        fn() =>  collect(static::getKabupaten())->pluck('name', 'id')
+                                        fn(WilayahServices $wilayah) =>  collect($wilayah->getKabupaten())->pluck('name', 'id')
                                     )
                                     ->required()->live()->searchable()->native(),
                                 Select::make('kecamatan_id')
                                     ->label('Kecamatan')
-                                    ->options(function (Get $get) {
+                                    ->options(function (Get $get, WilayahServices $wilayah) {
                                         $kabupaten = $get('kabupaten_id');
                                         if (!$kabupaten) {
                                             return [];
                                         }
-                                        return collect(static::getKecamatan($kabupaten))->pluck('name', 'id');
+                                        return collect($wilayah->getKecamatan($kabupaten))->pluck('name', 'id');
                                     })->required()->native()->searchable()->live(),
                                 Textarea::make('alamat_lengkap')
                             ])->columns(2)
@@ -103,7 +104,6 @@ class LayananHalalForm
                         FileUpload::make('foto_pelayanan')
                             ->directory('foto_layanan')
                             ->image()
-                            ->minSize(512)
                             ->maxSize(1024),
                         Textarea::make('catatan'),
                     ])->columns(2),
@@ -113,36 +113,15 @@ class LayananHalalForm
                     FileUpload::make('dokumen_pengajuan')
                         ->directory('dokumen_pengajuan')
                         ->acceptedFileTypes(['application/pdf'])
-                        ->minSize(512)
+                        ->maxSize(1024)
+                ])->columnSpanFull()->collapsible()->collapsed(),
+                Section::make('Dokumen Layanan')->schema([
+                    FileUpload::make('dokumen_output')
+                        ->directory('dokumen_output')
+                        ->acceptedFileTypes(['application/pdf'])
                         ->maxSize(1024)
                 ])->columnSpanFull()->collapsible()->collapsed(),
 
             ]);
-    }
-    protected static function getKabupaten($id = '32'): array
-    {
-        return Cache::remember("kabupaten_all_{$id}", now()->addHours(24), function () use ($id) {
-            try {
-                $response = Http::get('https://emsifa.github.io/api-wilayah-indonesia/api/regencies/' . $id . '.json');
-                $response->throw();
-
-                return $response->json() ?? [];
-            } catch (\Throwable $th) {
-                return [];
-            }
-        });
-    }
-    protected static function getKecamatan($id): array
-    {
-        return Cache::remember("kabupaten_all_{$id}", now()->addHours(24), function () use ($id) {
-            try {
-                $response = Http::get('https://emsifa.github.io/api-wilayah-indonesia/api/districts/' . $id . '.json');
-                $response->throw();
-
-                return $response->json() ?? [];
-            } catch (\Throwable $th) {
-                return [];
-            }
-        });
     }
 }

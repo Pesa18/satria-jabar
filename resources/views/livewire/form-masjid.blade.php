@@ -9,7 +9,8 @@
     errorCallback="errorCallbackFunction"
     class="mt-4"
 />
-       <x-filament::button type='submit' size="xl" class="mt-4 w-full">
+       <x-filament::button type='submit' size="xl" class="mt-4 w-full" wire:target="create"
+    wire:loading.attr="disabled">
     Submit
 </x-filament::button>
     </form>
