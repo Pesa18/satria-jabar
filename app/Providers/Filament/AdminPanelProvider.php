@@ -39,6 +39,7 @@ class AdminPanelProvider extends PanelProvider
             ->pages([
                 Dashboard::class,
             ])
+            // ->sidebarFullyCollapsibleOnDesktop()
             ->tenantRegistration(RegisterTeam::class)
             ->tenant(Team::class)
             ->discoverWidgets(in: app_path('Filament/Widgets'), for: 'App\Filament\Widgets')

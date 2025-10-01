@@ -16,7 +16,7 @@ return new class extends Migration
             $table->uuid('uuid')->unique();
             $table->string('no_layanan')->unique();
             $table->foreignId('team_satria_id')->constrained('team_satria')->onDelete('cascade');
-            $table->foreignId('p3h_id')->constrained('p3h_user')->onDelete('cascade')->nullable();
+            $table->foreignId('p3h_id')->nullable()->constrained('p3h_user')->onDelete('cascade');
             $table->string('NIK')->nullable();
             $table->date('tanggal_lahir')->nullable();
             $table->string('nama_pemohon');
