@@ -7,6 +7,7 @@
     "license": "MIT",
     "require": {
         "php": "^8.2",
+        "asmit/filament-upload": "^1.1",
         "coderflex/laravel-turnstile": "^2.1",
         "filament/actions": "~4.0",
         "filament/filament": "4.0",

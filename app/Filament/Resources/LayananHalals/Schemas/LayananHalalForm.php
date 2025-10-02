@@ -3,6 +3,8 @@
 namespace App\Filament\Resources\LayananHalals\Schemas;
 
 use App\Services\WilayahServices;
+use Asmit\FilamentUpload\Enums\PdfViewFit;
+use Asmit\FilamentUpload\Forms\Components\AdvancedFileUpload;
 use Carbon\Carbon;
 use Filament\Forms\Components\DatePicker;
 use Filament\Forms\Components\FileUpload;
@@ -110,16 +112,29 @@ class LayananHalalForm
 
                 ])->columnSpanFull()->collapsible(),
                 Section::make('Dokumen Pengajuan')->schema([
-                    FileUpload::make('dokumen_pengajuan')
+                    AdvancedFileUpload::make('dokumen_pengajuan')
                         ->directory('dokumen_pengajuan')
                         ->acceptedFileTypes(['application/pdf'])
                         ->maxSize(1024)
+                        ->pdfPreviewHeight(400)
+                        ->pdfZoomLevel(100)
+                        ->pdfDisplayPage(1) // Set default page
+                        ->pdfToolbar(true)
+                        ->downloadable()
+                        ->pdfNavPanes(true)
+                        ->pdfFitType(PdfViewFit::FIT)
                 ])->columnSpanFull()->collapsible()->collapsed(),
                 Section::make('Dokumen Layanan')->schema([
-                    FileUpload::make('dokumen_output')
+                    AdvancedFileUpload::make('dokumen_output')
                         ->directory('dokumen_output')
                         ->acceptedFileTypes(['application/pdf'])
                         ->maxSize(1024)
+                        ->pdfPreviewHeight(400)
+                        ->pdfZoomLevel(100)
+                        ->pdfDisplayPage(1) // Set default page
+                        ->pdfToolbar(true)
+                        ->downloadable()
+                        ->pdfNavPanes(true)
                 ])->columnSpanFull()->collapsible()->collapsed(),
 
             ]);
