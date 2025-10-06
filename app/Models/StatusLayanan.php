@@ -7,10 +7,9 @@ use Illuminate\Database\Eloquent\Model;
 class StatusLayanan extends Model
 {
     protected $table = 'status_layanan';
-    public $timestamps = false;
     protected $guarded = [];
 
-    protected  $casts = [
-        'pesan' => 'array'
-    ];
+    // protected  $casts = [
+    //     'pesan' => 'array'
+    // ];
 }

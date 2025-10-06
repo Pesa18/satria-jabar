@@ -17,7 +17,9 @@ class WhatsAppChannel
 
         try {
             $data = $notification->toWhatsApp($notifiable);
-            Http::post('https://waha.satriapp.my.id/api/sendText', [
+            Http::withHeaders([
+                'X-Api-Key' => 'Alamin180994@',
+            ])->post('https://waha.satriapp.my.id/api/sendText', [
                 "chatId" => $data['phone'],
                 "reply_to" => null,
                 "text" => $data['message'],

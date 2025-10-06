@@ -29,9 +29,9 @@ class LayananHalal extends Model
         });
     }
 
-    public function status()
+    public function statusLayanan()
     {
-        return $this->hasOne(StatusLayanan::class, 'id', 'status_layanan_id');
+        return $this->belongsTo(StatusLayanan::class, 'status_layanan_id');
     }
     public function teamSatria()
     {
