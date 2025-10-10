@@ -18,6 +18,10 @@ return [
             'name' => 'Team Kanwil',
             'slug' => 'team-kanwil'
         ],
+        'TeamSatria' => [
+            'name' => 'Team Satria',
+            'slug' => 'team-satria'
+        ],
         'TeamKua' => [
             'name' => 'Team Kua',
             'slug' => 'team-kua'

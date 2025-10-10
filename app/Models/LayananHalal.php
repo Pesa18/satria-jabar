@@ -37,4 +37,12 @@ class LayananHalal extends Model
     {
         return $this->hasOne(TeamSatria::class, 'id', 'team_satria_id');
     }
+    public function MessageInfoLayanan()
+    {
+        return $this->belongsTo(MessageInfoLayanan::class, 'id', 'layanan_halal_id');
+    }
+    public function team()
+    {
+        return $this->belongsTo(Team::class);
+    }
 }

@@ -71,28 +71,28 @@ class User extends Authenticatable implements HasTenants
     }
 
 
-    public function teams(): BelongsToMany
-    {
-        return $this->belongsToMany(Team::class, 'team_user');
-    }
+    // protected static function booted(): void
+    // {
+    //     static::addGlobalScope('team', function (Builder $query) {
+    //         if (auth()->hasUser()) {
+    //             $query->where('team_id', auth()->user()->team_id);
+    //             // or with a `team` relationship defined:
+    //             // $query->whereBelongsTo(auth()->user()->team);
+    //         }
+    //     });
+    // }
 
-    public function getTenants(Panel $panel): Collection
-    {
-        return $this->teams;
-    }
     public function team()
     {
         return $this->belongsTo(Team::class);
     }
-    protected static function booted(): void
+    public function teams(): BelongsToMany
     {
-        static::addGlobalScope('team', function (Builder $query) {
-            if (auth()->hasUser()) {
-                // $query->where('team_id', auth()->user()->team_id);
-                // or with a `team` relationship defined:
-                $query->whereBelongsTo(auth()->user()->teams);
-            }
-        });
+        return $this->belongsToMany(Team::class, 'team_user');
+    }
+    public function getTenants(Panel $panel): Collection
+    {
+        return $this->teams;
     }
 
     public function canAccessTenant(Model $tenant): bool

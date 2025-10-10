@@ -96,6 +96,7 @@ class FormHalal extends Component implements HasSchemas
         $createLayanan =  LayananHalal::create(
             $this->form->getState()
         );
+        $createLayanan->refresh();
         if ($createLayanan) {
             $this->form->fill([]);
             $this->no_layanan  = $createLayanan->no_layanan;

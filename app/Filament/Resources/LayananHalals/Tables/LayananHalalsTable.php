@@ -2,7 +2,9 @@
 
 namespace App\Filament\Resources\LayananHalals\Tables;
 
+use App\Models\LayananHalal;
 use App\Models\StatusLayanan;
+use Asmit\FilamentUpload\Forms\Components\AdvancedFileUpload;
 use Filament\Actions\Action;
 use Filament\Actions\BulkActionGroup;
 use Filament\Actions\DeleteBulkAction;
@@ -36,11 +38,45 @@ class LayananHalalsTable
                             'id' => $record->id,
                             'status' => $state,
                             'pesan' => $pesan,
-                            'record' => $record
+                            'record' => $record,
                         ]);
                     }
 
                 ),
+                TextColumn::make('dokumen_pengajuan')->formatStateUsing(fn(string $state): string => $state == 'Belum Upload' ? "Belum Upload" : "Lihat Dokumen")
+                    ->badge()
+                    ->default('Belum Upload')->color(fn(string $state): string => match ($state) {
+                        'Belum Upload' => 'danger',
+                        $state => 'success'
+                    })
+                    ->action(
+                        Action::make("Lihat Dokumen Pengajuan")->form([
+                            AdvancedFileUpload::make('dokumen_pengajuan')->directory('dokumen_pengajuan')->downloadable()
+                        ])->mountUsing(
+                            function ($form, LayananHalal $record) {
+                                $form->fill([
+                                    'dokumen_pengajuan' => $record->dokumen_pengajuan
+                                ]);
+                            }
+                        )->modalWidth('4xl')->modalSubmitAction(false)->modalCancelAction(false)->disabled(fn(LayananHalal $record): bool => !$record->dokumen_pengajuan)
+                    ),
+                TextColumn::make('dokumen_output')->formatStateUsing(fn(string $state): string => $state == 'Belum Upload' ? "Belum Upload" : "Lihat Dokumen")
+                    ->badge()
+                    ->default('Belum Upload')->color(fn(string $state): string => match ($state) {
+                        'Belum Upload' => 'danger',
+                        $state => 'success'
+                    })
+                    ->action(
+                        Action::make("Lihat Dokumen Output")->form([
+                            AdvancedFileUpload::make('dokumen_output')->directory('dokumen_output')->downloadable()
+                        ])->mountUsing(
+                            function ($form, LayananHalal $record) {
+                                $form->fill([
+                                    'dokumen_output' => $record->dokumen_output
+                                ]);
+                            }
+                        )->modalWidth('4xl')->modalSubmitAction(false)->modalCancelAction(false)->disabled(fn(LayananHalal $record): bool => !$record->dokumen_output)
+                    ),
             ])
             ->filters([
                 //

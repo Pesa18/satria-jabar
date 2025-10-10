@@ -2,6 +2,7 @@
 
 namespace App\Notifications\Channels;
 
+use App\Models\MessageInfoLayanan;
 use App\Notifications\WhatsAppNotification;
 use Filament\Notifications\Notification;
 use Illuminate\Support\Facades\Http;
@@ -17,7 +18,7 @@ class WhatsAppChannel
 
         try {
             $data = $notification->toWhatsApp($notifiable);
-            Http::withHeaders([
+            $response = Http::withHeaders([
                 'X-Api-Key' => env("API_KEY_WAHA"),
             ])->post('https://waha.satriapp.my.id/api/sendText', [
                 "chatId" => $data['phone'],
@@ -26,6 +27,20 @@ class WhatsAppChannel
                 "linkPreview" => true,
                 "linkPreviewHighQuality" => false,
                 "session" => "default"
+            ]);
+            if (!$response->successful()) {
+                return   MessageInfoLayanan::create([
+                    'layanan_halal_id' => $notifiable->id,
+                    'status' => 'gagal',
+                    'last_message' => $data['message']
+
+                ]);
+            }
+            MessageInfoLayanan::create([
+                'layanan_halal_id' => $notifiable->id,
+                'status' => 'succes',
+                'last_message' => $data['message']
+
             ]);
         } catch (\Throwable $th) {
 

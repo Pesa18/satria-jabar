@@ -3,6 +3,7 @@
 namespace App\Filament\Pages;
 
 use BackedEnum;
+use BezhanSalleh\FilamentShield\Traits\HasPageShield;
 use Filament\Forms\Components\Select;
 use Filament\Forms\Components\Textarea;
 use Filament\Forms\Components\TextInput;
@@ -15,6 +16,7 @@ use Illuminate\Support\Facades\Http;
 
 class ProfilP3h extends Page
 {
+    use HasPageShield;
     protected string $view = 'filament.pages.profil-p3h';
     protected static string | BackedEnum | null $navigationIcon = 'heroicon-o-user-circle';
     public ?array $dataForm = [];

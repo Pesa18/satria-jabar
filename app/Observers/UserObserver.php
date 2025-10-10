@@ -4,6 +4,7 @@ namespace App\Observers;
 
 use App\Models\Team;
 use App\Models\User;
+use Filament\Facades\Filament;
 
 class UserObserver
 {
@@ -15,7 +16,7 @@ class UserObserver
         if (auth()->hasUser()) {
 
             // Ambil tim berdasarkan team_id yang baru saja disetel
-            $team = Team::find(getPermissionsTeamId());
+            $team = Team::find(Filament::getTenant()->id);
 
             // Pastikan tim ditemukan sebelum mengaitkan anggota
             if ($team) {

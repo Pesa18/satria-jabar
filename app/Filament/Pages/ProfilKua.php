@@ -3,6 +3,7 @@
 namespace App\Filament\Pages;
 
 use BackedEnum;
+use BezhanSalleh\FilamentShield\Traits\HasPageShield;
 use Filament\Forms\Components\Select;
 use Filament\Forms\Components\Textarea;
 use Filament\Forms\Components\TextInput;
@@ -20,12 +21,17 @@ use Illuminate\Support\Facades\Http;
 
 class ProfilKua extends Page implements HasSchemas
 {
-    use InteractsWithSchemas;
+    use InteractsWithSchemas, HasPageShield;
     protected string $view = 'filament.pages.profil-kua';
     protected static string | BackedEnum | null $navigationIcon = 'heroicon-o-user-circle';
 
     public ?array $dataForm = [];
     public bool $isEditing = false;
+
+    // public static function canAccess(): bool
+    // {
+    //     return false;
+    // }
     public function mount(): void
     {
         $kua = auth()->user()->kua()->first();

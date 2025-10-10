@@ -6,6 +6,7 @@ use App\Filament\Resources\LayananHalals\Pages\CreateLayananHalal;
 use App\Filament\Resources\LayananHalals\Pages\EditLayananHalal;
 use App\Filament\Resources\LayananHalals\Pages\ListLayananHalals;
 use App\Filament\Resources\LayananHalals\Pages\ViewLayananHalal;
+use App\Filament\Resources\LayananHalals\RelationManagers\MessageInfoLayananRelationManager;
 use App\Filament\Resources\LayananHalals\Schemas\LayananHalalForm;
 use App\Filament\Resources\LayananHalals\Tables\LayananHalalsTable;
 use App\Models\LayananHalal;
@@ -39,7 +40,7 @@ class LayananHalalResource extends Resource
     public static function getRelations(): array
     {
         return [
-            //
+            MessageInfoLayananRelationManager::class
         ];
     }
 

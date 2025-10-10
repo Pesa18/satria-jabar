@@ -2,6 +2,7 @@
 
 namespace App\Filament\Resources\Users\Schemas;
 
+use App\Models\Role;
 use Filament\Facades\Filament;
 use Filament\Forms\Components\Checkbox;
 use Filament\Forms\Components\CheckboxList;
@@ -11,6 +12,7 @@ use Filament\Schemas\Components\Group;
 use Filament\Schemas\Components\Section;
 use Filament\Schemas\Schema;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Support\Facades\Gate;
 
 class UserForm
 {
@@ -32,18 +34,19 @@ class UserForm
                                     ->required()
                                     ->maxLength(255),
 
-                                Select::make('roles.name')->required()
-                                    ->label('Role')
-                                    ->relationship('roles', 'name')
-                                    ->options(function () {
-                                        return \App\Models\Role::pluck('name', 'id');
-                                    })->searchable()->native()->saveRelationshipsUsing(function (Model $record, $state) {
+                                Select::make('role')
+                                    ->relationship(name: 'roles', titleAttribute: 'name')
 
-                                        $record->roles()->syncWithPivotValues($state, [config('permission.column_names.team_foreign_key') => getPermissionsTeamId()]);
-                                    }),
+                                    ->saveRelationshipsUsing(function (Model $record, $state) {
+                                        $record->roles()->syncWithPivotValues($state, [config('permission.column_names.team_foreign_key') => Filament::getTenant()->id]);
+                                    })
+                                    ->multiple()
+                                    ->preload()
+                                    ->searchable()->live(),
                                 TextInput::make('password')
                                     ->password()
-                                    ->revealable()
+                                    ->revealable(),
+
                             ])->columns(2),
                     ])
                     ->columnSpanFull(),

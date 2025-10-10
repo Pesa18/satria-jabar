@@ -16,10 +16,8 @@ class PermissionTeamId
      */
     public function handle(Request $request, Closure $next): Response
     {
-        $filament = Filament::getTenant()->id;
-        $spatie = getPermissionsTeamId();
-        if ($filament !== $spatie) {
-            setPermissionsTeamId($filament);
+        if (Filament::getTenant()) {
+            setPermissionsTeamId(Filament::getTenant()->id);
         }
 
         return $next($request);

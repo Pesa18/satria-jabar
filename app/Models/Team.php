@@ -15,12 +15,30 @@ class Team extends Model
     {
         return $this->belongsToMany(User::class);
     }
-    public function userTeams(): BelongsToMany
+
+    /** @return HasMany<\Spatie\Permission\Models\Role, self> */
+
+    // public function userTeams(): HasMany
+    // {
+    //     return $this->hasMany(User::class);
+    // }
+
+    public function team(): HasMany
     {
-        return $this->belongsToMany(User::class);
+        return $this->hasMany(\Spatie\Permission\Models\Role::class);
     }
-    public function roles(): BelongsToMany
+
+
+    /** @return HasMany<\App\Models\User, self> */
+    public function users(): HasMany
     {
-        return $this->belongsToMany(Role::class, 'team_user');
+        return $this->hasMany(\App\Models\User::class);
+    }
+
+
+    /** @return HasMany<\Spatie\Permission\Models\Role, self> */
+    public function roles(): HasMany
+    {
+        return $this->hasMany(\Spatie\Permission\Models\Role::class);
     }
 }
