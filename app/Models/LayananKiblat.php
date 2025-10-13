@@ -26,4 +26,20 @@ class LayananKiblat extends Model
             $service->no_layanan = 'KL' . $urut . $bulanTahun;
         });
     }
+    public function statusLayanan()
+    {
+        return $this->belongsTo(StatusLayanan::class, 'status_layanan_id');
+    }
+    public function teamSatria()
+    {
+        return $this->hasOne(TeamSatria::class, 'id', 'team_satria_id');
+    }
+    public function MessageInfoLayanan()
+    {
+        return $this->belongsTo(MessageInfoLayanan::class, 'id', 'layanan_kiblat_id');
+    }
+    public function team()
+    {
+        return $this->belongsTo(Team::class);
+    }
 }

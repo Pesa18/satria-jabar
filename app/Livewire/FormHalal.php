@@ -99,6 +99,7 @@ class FormHalal extends Component implements HasSchemas
         $createLayanan->refresh();
         if ($createLayanan) {
             $this->form->fill([]);
+            $createLayanan['layanan'] = 'layanan_halal_id';
             $this->no_layanan  = $createLayanan->no_layanan;
             $this->dispatch('open-modal', id: 'user-info',);
             $whatsappnotif = new WhatsAppNotification('Terimakasih' . $createLayanan->nama_pemohon . 'Layanan Masuk Dengan Nomor Layanan :' . $createLayanan->no_layanan);

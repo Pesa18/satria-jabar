@@ -34,7 +34,7 @@ class LayananHalalsTable
                             return false;
                         }
                         $pesan = StatusLayanan::find($state)?->pesan;
-                        $livewire->mountAction('test', [
+                        $livewire->mountAction('message', [
                             'id' => $record->id,
                             'status' => $state,
                             'pesan' => $pesan,

@@ -5,6 +5,8 @@ namespace App\Filament\Resources\LayananKiblats;
 use App\Filament\Resources\LayananKiblats\Pages\CreateLayananKiblat;
 use App\Filament\Resources\LayananKiblats\Pages\EditLayananKiblat;
 use App\Filament\Resources\LayananKiblats\Pages\ListLayananKiblats;
+use App\Filament\Resources\LayananKiblats\Pages\ViewLayananKiblat;
+use App\Filament\Resources\LayananKiblats\RelationManagers\MessageInfoLayananRelationManager;
 use App\Filament\Resources\LayananKiblats\Schemas\LayananKiblatForm;
 use App\Filament\Resources\LayananKiblats\Tables\LayananKiblatsTable;
 use App\Models\LayananKiblat;
@@ -35,7 +37,7 @@ class LayananKiblatResource extends Resource
     public static function getRelations(): array
     {
         return [
-            //
+            MessageInfoLayananRelationManager::class
         ];
     }
 
@@ -44,6 +46,7 @@ class LayananKiblatResource extends Resource
         return [
             'index' => ListLayananKiblats::route('/'),
             'create' => CreateLayananKiblat::route('/create'),
+            'view' => ViewLayananKiblat::route('/{record}'),
             'edit' => EditLayananKiblat::route('/{record}/edit'),
         ];
     }

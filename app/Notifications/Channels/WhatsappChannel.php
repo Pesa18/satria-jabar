@@ -12,6 +12,8 @@ class WhatsAppChannel
 {
     public function send($notifiable, WhatsAppNotification $notification)
     {
+
+
         if (! method_exists($notification, 'toWhatsApp')) {
             return;
         }
@@ -30,21 +32,24 @@ class WhatsAppChannel
             ]);
             if (!$response->successful()) {
                 return   MessageInfoLayanan::create([
-                    'layanan_halal_id' => $notifiable->id,
+                    $notifiable->layanan => $notifiable->id,
                     'status' => 'gagal',
                     'last_message' => $data['message']
 
                 ]);
             }
             MessageInfoLayanan::create([
-                'layanan_halal_id' => $notifiable->id,
+                $notifiable->layanan => $notifiable->id,
                 'status' => 'succes',
                 'last_message' => $data['message']
 
             ]);
         } catch (\Throwable $th) {
-
-            return  false;
+            dd($th);
+            return  Notification::make()
+                ->title('Gagal Mengirim Notifikasi WhatsApp')
+                ->danger()
+                ->send();
         }
     }
 }

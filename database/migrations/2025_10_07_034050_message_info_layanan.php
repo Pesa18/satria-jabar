@@ -14,8 +14,8 @@ return new class extends Migration
         Schema::create('message_info_layanan', function (Blueprint $table) {
             $table->id()->primary();
             $table->foreignId('layanan_halal_id')->nullable()->constrained('layanan_halals')->onDelete('cascade');
-            $table->foreignId('layanan_kiblat_id')->nullable()->constrained('layanan_masjids')->onDelete('cascade');
-            $table->foreignId('layanan_masjid_id')->nullable()->constrained('layanan_kiblats')->onDelete('cascade');
+            $table->foreignId('layanan_kiblat_id')->nullable()->constrained('layanan_kiblats')->onDelete('cascade');
+            $table->foreignId('layanan_masjid_id')->nullable()->constrained('layanan_masjids')->onDelete('cascade');
             $table->string('status');
             $table->string('last_message');
             $table->timestamps();

@@ -16,9 +16,9 @@ use Filament\Schemas\Components\Group;
 class ListLayananHalals extends ListRecords
 {
     protected static string $resource = LayananHalalResource::class;
-    public function testAction(): Action
+    public function MessageAction(): Action
     {
-        return Action::make('test')
+        return Action::make('message')
             ->requiresConfirmation()
             ->form([
                 Group::make()->schema([
@@ -42,6 +42,7 @@ class ListLayananHalals extends ListRecords
             ->action(function (array $arguments, $form) {
                 $record = $arguments['record']; // record LayananHalal yang bersangkutan
                 $pesan = $form->getState('isi_pesan'); // pastikan ambil dengan key
+                $record['layanan'] = 'layanan_halal_id';
                 $pesan = is_array($pesan) ? $pesan['isi_pesan'] ?? '' : $pesan;
                 $whatsappNotif = new WhatsAppNotification($pesan);
                 $record->notify($whatsappNotif);

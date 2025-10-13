@@ -13,4 +13,8 @@ class MessageInfoLayanan extends Model
     {
         return $this->belongsTo(LayananHalal::class, 'layanan_halal_id', 'id');
     }
+    public function LayananKiblat()
+    {
+        return $this->belongsTo(LayananKiblat::class, 'layanan_kiblat_id', 'id');
+    }
 }
